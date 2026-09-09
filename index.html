@@ -140,8 +140,13 @@
             }
             )();
         </script>
+        <style>
+            /* إصلاح: منع أي سكرول أفقي (overflow) عشان المحتوى المتوسط
+               (زي كارت Save the Date) ميبقاش شكله مايل لليمين على الموبايل. */
+            html { overflow-x: hidden; max-width: 100%; }
+        </style>
     </head>
-    <body class="t-body" style="margin:0;">
+    <body class="t-body" style="margin:0; overflow-x:hidden;">
         <!-- ==========================================================================
              WEDDING TEMPLATE CONFIG — القيم اللي المفروض تتغير بس (باقي الصفحة ثابت)
              عدّل الأسطر اللي جوا { } بس، متلمسش أي حاجة تانية في الملف ده.
