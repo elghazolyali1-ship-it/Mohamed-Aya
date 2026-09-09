@@ -871,6 +871,30 @@
                         });
                     });
                 </script>
+
+                <!-- إصلاح: ختم الفتح (البصمة) بيفضل غير قابل للضغط لحد ما كل
+                     سكريبتات التحريك بتاعت تيلدا (المحمّلة async) تخلص تحميل
+                     وتربط الـ click listener بتاعتها. من غير ده، أول ضغطة من
+                     الضيف ممكن "تضيع" لو حصلت قبل ما السكريبت يخلص تحميل،
+                     فيحتاج يضغط تاني عشان الدعوة تفتح. -->
+                <style>
+                    .popup-enter { pointer-events: none; }
+                </style>
+                <script>
+                    (function () {
+                        function enableSeal() {
+                            var seal = document.querySelector('.popup-enter');
+                            if (seal) { seal.style.pointerEvents = 'auto'; }
+                        }
+                        if (document.readyState === 'complete') {
+                            setTimeout(enableSeal, 300);
+                        } else {
+                            window.addEventListener('load', function () {
+                                setTimeout(enableSeal, 300);
+                            });
+                        }
+                    })();
+                </script>
                 <!-- /T396 -->
             </div>
             <div id="rec2339662493" class="r t-rec t-screenmax-980px" style=" " data-animationappear="off" data-record-type="131" data-screen-max="980px">
