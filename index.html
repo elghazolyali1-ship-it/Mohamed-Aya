@@ -915,14 +915,15 @@
                         gap: 6px;
                         cursor: pointer;
                         transform: translateX(-50%);
-                        animation: scrollDownBounce 1.8s ease-in-out infinite;
+                        opacity: 0;
+                        pointer-events: none;
                         transition: opacity .35s ease;
                     }
 
-                    #rec2339662043 .scroll-down-indicator.is-hidden {
-                        animation: none;
-                        opacity: 0;
-                        pointer-events: none;
+                    #rec2339662043 .scroll-down-indicator.is-visible {
+                        opacity: 1;
+                        pointer-events: auto;
+                        animation: scrollDownBounce 1.8s ease-in-out infinite;
                     }
 
                     #rec2339662043 .scroll-down-indicator svg {
@@ -936,8 +937,7 @@
                         font-size: 22px;
                         font-weight: 500;
                         letter-spacing: 5px;
-                        color: #fff6e0;
-                        text-shadow: 0 0 14px rgba(201,162,39,0.95), 0 2px 4px rgba(0,0,0,0.6);
+                        color: #866739;
                         white-space: nowrap;
                     }
 
@@ -965,7 +965,7 @@
                 <div class="scroll-down-indicator" id="scrollDownIndicator" aria-hidden="true">
                     <span class="scroll-down-label">SCROLL DOWN</span>
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 3V19M12 19L6 13M12 19L18 13" stroke="#c9a227" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 3V19M12 19L6 13M12 19L18 13" stroke="#866739" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </div>
                 <script>
@@ -973,6 +973,18 @@
                         function initScrollDownArrow() {
                             var arrow = document.getElementById('scrollDownIndicator');
                             if (!arrow) { return; }
+
+                            var sealOpened = false;
+
+                            function updateVisibility() {
+                                if (sealOpened && window.scrollY <= 60) {
+                                    arrow.classList.add('is-visible');
+                                    arrow.setAttribute('aria-hidden', 'false');
+                                } else {
+                                    arrow.classList.remove('is-visible');
+                                    arrow.setAttribute('aria-hidden', 'true');
+                                }
+                            }
 
                             arrow.addEventListener('click', function () {
                                 var nextSection = document.getElementById('rec2339662493');
@@ -988,13 +1000,16 @@
                                 }
                             });
 
-                            window.addEventListener('scroll', function () {
-                                if (window.scrollY > 60) {
-                                    arrow.classList.add('is-hidden');
-                                } else {
-                                    arrow.classList.remove('is-hidden');
-                                }
-                            }, { passive: true });
+                            window.addEventListener('scroll', updateVisibility, { passive: true });
+
+                            var seal = document.querySelector('.popup-enter');
+                            if (seal) {
+                                seal.addEventListener('click', function () {
+                                    sealOpened = true;
+                                    /* small delay so the arrow appears just after the opening animation plays */
+                                    setTimeout(updateVisibility, 1200);
+                                });
+                            }
                         }
 
                         if (document.readyState === 'complete' || document.readyState === 'interactive') {
