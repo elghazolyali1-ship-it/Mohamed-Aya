@@ -901,6 +901,109 @@
                     })();
                 </script>
                 <!-- /T396 -->
+
+                <!-- Scroll Down Arrow - shown on the first (cover) screen -->
+                <style>
+                    #rec2339662043 .scroll-down-indicator {
+                        position: absolute;
+                        left: 50%;
+                        bottom: 230px;
+                        z-index: 995;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        gap: 6px;
+                        cursor: pointer;
+                        transform: translateX(-50%);
+                        animation: scrollDownBounce 1.8s ease-in-out infinite;
+                        transition: opacity .35s ease;
+                    }
+
+                    #rec2339662043 .scroll-down-indicator.is-hidden {
+                        animation: none;
+                        opacity: 0;
+                        pointer-events: none;
+                    }
+
+                    #rec2339662043 .scroll-down-indicator svg {
+                        width: 30px;
+                        height: 30px;
+                        display: block;
+                    }
+
+                    #rec2339662043 .scroll-down-label {
+                        font-family: 'Ovo', serif;
+                        font-size: 22px;
+                        font-weight: 500;
+                        letter-spacing: 5px;
+                        color: #fff6e0;
+                        text-shadow: 0 0 14px rgba(201,162,39,0.95), 0 2px 4px rgba(0,0,0,0.6);
+                        white-space: nowrap;
+                    }
+
+                    @keyframes scrollDownBounce {
+                        0%, 100% { transform: translate(-50%, 0); }
+                        50% { transform: translate(-50%, 12px); }
+                    }
+
+                    @media screen and (max-width: 479px) {
+                        #rec2339662043 .scroll-down-indicator {
+                            bottom: 150px;
+                        }
+
+                        #rec2339662043 .scroll-down-indicator svg {
+                            width: 24px;
+                            height: 24px;
+                        }
+
+                        #rec2339662043 .scroll-down-label {
+                            font-size: 17px;
+                            letter-spacing: 3px;
+                        }
+                    }
+                </style>
+                <div class="scroll-down-indicator" id="scrollDownIndicator" aria-hidden="true">
+                    <span class="scroll-down-label">SCROLL DOWN</span>
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 3V19M12 19L6 13M12 19L18 13" stroke="#c9a227" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <script>
+                    (function () {
+                        function initScrollDownArrow() {
+                            var arrow = document.getElementById('scrollDownIndicator');
+                            if (!arrow) { return; }
+
+                            arrow.addEventListener('click', function () {
+                                var nextSection = document.getElementById('rec2339662493');
+                                var target = nextSection ? nextSection.nextElementSibling : null;
+                                if (!target) {
+                                    var cover = document.getElementById('rec2339662043');
+                                    target = cover ? cover.nextElementSibling : null;
+                                }
+                                if (target && target.scrollIntoView) {
+                                    target.scrollIntoView({ behavior: 'smooth' });
+                                } else {
+                                    window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+                                }
+                            });
+
+                            window.addEventListener('scroll', function () {
+                                if (window.scrollY > 60) {
+                                    arrow.classList.add('is-hidden');
+                                } else {
+                                    arrow.classList.remove('is-hidden');
+                                }
+                            }, { passive: true });
+                        }
+
+                        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                            initScrollDownArrow();
+                        } else {
+                            document.addEventListener('DOMContentLoaded', initScrollDownArrow);
+                        }
+                    })();
+                </script>
             </div>
             <div id="rec2339662493" class="r t-rec t-screenmax-980px" style=" " data-animationappear="off" data-record-type="131" data-screen-max="980px">
                 <!-- T123 -->
